@@ -27,14 +27,17 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def get_password_hash(password):
     return pwd_context.hash(password)
 
+
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)
+
 
 def get_user(username: str):
     with Session(engine) as session:
         statement = select(User).where(username == username)
         user = session.exec(statement).one_or_none()
         return user
+
 
 def authenticate_user(username: str, password: str):
     user = get_user(username)
@@ -58,7 +61,6 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
-
 
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):

@@ -5,8 +5,12 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlmodel import select
 
-from src.auth.auth_utils import authenticate_user, ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token, \
-    get_current_active_user
+from src.auth.auth_utils import (
+    authenticate_user,
+    ACCESS_TOKEN_EXPIRE_MINUTES,
+    create_access_token,
+    get_current_active_user,
+)
 from src.auth.models import User
 from src.auth.schemas import UserInSchema, UserOutSchema, Token
 from src.auth.service import UserService
@@ -14,10 +18,12 @@ from src.database import create_db_and_tables, SessionDep
 
 router = APIRouter()
 
+
 @router.get("", response_model=list[UserOutSchema])
 def get_users(session: SessionDep):
     users = session.exec(select(User)).all()
     return users
+
 
 @router.get("/{username}")
 def get_user(username: str):
@@ -53,10 +59,8 @@ async def read_users_me(
 ):
     return current_user
 
+
 @router.delete("/drop_database")
 def drop_database():
     create_db_and_tables()
     return {"message": "Database dropped"}
-
-
-
