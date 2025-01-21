@@ -1,4 +1,4 @@
-# Simple auth app 
+# Fastapi. Simple auth app 
 ## OAuth2 with Password (and hashing), Bearer with JWT tokens. Sqlite Database
 
 docs: https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/
